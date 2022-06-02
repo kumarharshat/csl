@@ -401,9 +401,9 @@ class PrimalDualBase():
                     else:
                         L = primal_value
                         if constraint_slacks is not None:
-                            L += np.sum([lambda_value*slack for lambda_value, slack in zip(problem.lambdas, constraint_slacks)]).item()
+                            L += np.sum([lambda_value.cpu().detach().numpy()*slack.cpu().detach().numpy() for lambda_value, slack in zip(problem.lambdas, constraint_slacks)]).item()
                         if pointwise_slacks is not None:
-                            L += np.sum([torch.dot(mu_value, slack) for mu_value, slack in zip(problem.mus, pointwise_slacks)]).item()
+                            L += np.sum([torch.dot(mu_value.cpu().detach(), slack.cpu().detach()) for mu_value, slack in zip(problem.mus, pointwise_slacks)]).item()
 
                 # Log dual iteration
                 self._log_dual(L, dual_grad_norm, constraint_slacks, problem.rhs, problem.lambdas,
