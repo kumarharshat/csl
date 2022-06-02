@@ -517,7 +517,7 @@ class PrimalDualBase():
                 ax.autoscale()
 
         # Show figure
-        fig.show()
+        fig.savefig('debug.pdf')
 
         return fig, axes
 
